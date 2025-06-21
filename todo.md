@@ -1,0 +1,4 @@
+## open points
+
+* frontend
+* logging
