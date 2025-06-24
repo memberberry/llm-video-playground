@@ -1,17 +1,14 @@
 import logging
-from typing import List, Dict, Any
-from google import genai
+from typing import Dict, Any
 from fastapi import APIRouter, HTTPException
 from api.core.settings import settings
 from google.genai import errors
-from api.routers.videos import get_uploaded_file
-from pydantic import BaseModel
+from api.services import get_uploaded_file, client
 from api.database import add_history_entry
 from api.models import GeminiFileRequest, GeminiStructRequest
 log = logging.getLogger(__name__)
 log.setLevel(settings.LOG_LEVEL)
 
-client = genai.Client(api_key=settings.GEMINI_API_KEY)
 router = APIRouter()
 
 
@@ -50,7 +47,7 @@ def request_gemini_files(request: GeminiFileRequest) -> Dict[str, Any]:
 def list_gemini_models():
     try:
         models = client.models.list()
-        return {"models": [model.name for model in models]}
+        return {"models": [model.name.split("/")[1] for model in models]}
     
     except errors.APIError as e:
         log.error(f"Gemini API error occurred: {e}")

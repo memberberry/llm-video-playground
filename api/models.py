@@ -7,7 +7,7 @@ from google.genai.types import Type
 class GeminiFileRequest(BaseModel):
     model: str
     prompt: str
-    files: List[str]
+    files: List[int]
 
 class PropertyDefinition(TypedDict):
     # 'STRING', 'INTEGER', 'NUMBER', 'BOOLEAN', 'ARRAY', 'OBJECT'
@@ -46,14 +46,27 @@ class GeminiStructRequest(BaseModel):
     #     },
     model: str
     prompt: str
-    files: List[str]
-    response_schema: ResponseSchemaDict 
+    files: List[int]
+    response_schema: ResponseSchemaDict
+
+class Video(BaseModel):
+    id: int
+    display_name: str
+    video_uri: Optional[str]
+    thumbnail: Optional[str] # Base64 encoded
+    gemini_name: Optional[str]
+    mime_type: str
+    size_bytes: int
+    upload_status: str
+    created_at: str
+    is_deleted: bool
+    path: Optional[str]
 
 class History(BaseModel):
-    id: int
+    hash: str
     prompt: str
     model: str
-    output: Optional[str]
-    structured_output: Optional[Dict[str, Any]]
+    output: Optional[str] = None
+    structured_output: Optional[Dict[str, Any]] = None
     created_at: str
-    videos: List[str]
+    videos: List[int] = []

@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     GEMINI_API_KEY: str
     LOG_LEVEL: str
     VERSION: str = VERSION
+    VIDEO_STORAGE_DIR: str = "uploads"
     model_config = SettingsConfigDict(env_file=".env")
 
 settings = Settings()
