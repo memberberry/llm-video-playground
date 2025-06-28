@@ -1,9 +1,10 @@
 import logging
-from typing import List
+from typing import List, Dict
 import base64
 import os
 import aiofiles
 from fastapi import APIRouter, File, HTTPException, UploadFile, BackgroundTasks
+from google.genai import types
 from api.core.settings import settings
 from api.database import (
     add_video_entry,
@@ -59,12 +60,37 @@ async def upload_video(background_tasks: BackgroundTasks, file: UploadFile = Fil
 
     return {"message": "successfully uploaded and saved video", "video_id": video_id, "display_name": display_name, "path": file_path}
 
+@router.get("/uploads")
+async def list_uploaded_videos() -> List[types.File]:
+    """
+    Lists all uploaded videos to Google
+    """
+    try:
+        uploads: List[types.File] = list(client.files.list())
+        return uploads
+    except Exception as e:
+        log.exception(f"failed to list all uploaded videos to google {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
+@router.get("/uploads/clear")
+async def delete_uploaded_videos() -> Dict:
+    """
+    Deletes all uploaded videos from Google
+    """
+    try:
+        uploads: List[types.File] = list(client.files.list())
+        for vid in uploads:
+            client.files.delete(name=vid.name)
+        return {"type": "success", "deleted": [vid.name for vid in uploads]}
+
+    except Exception as e:
+        log.exception(f"failed to delete uploaded videos from google {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/", response_model=List[Video])
 async def list_videos():
     """
-    Lists all uploaded video files from the local database.
+    Lists all video entries from the local database.
     """
     try:
         videos_from_db = get_videos()
