@@ -7,7 +7,7 @@ from google.genai.types import Type
 class GeminiFileRequest(BaseModel):
     model: str
     prompt: str
-    files: List[int]
+    video_ids: List[int]
 
 class PropertyDefinition(TypedDict):
     # 'STRING', 'INTEGER', 'NUMBER', 'BOOLEAN', 'ARRAY', 'OBJECT'
@@ -51,10 +51,10 @@ class GeminiStructRequest(BaseModel):
 
 class Video(BaseModel):
     id: int
-    display_name: str
+    display_name: Optional[str]
     video_uri: Optional[str]
     thumbnail: Optional[str] # Base64 encoded
-    gemini_name: Optional[str]
+    gemini_name: str
     mime_type: str
     size_bytes: int
     upload_status: str

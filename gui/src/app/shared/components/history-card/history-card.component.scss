@@ -1,0 +1,41 @@
+.history-card-container {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #e1e8ed;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #f8f9fa;
+  }
+}
+
+.status-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #27ae60; // Default to green
+  margin-right: 15px;
+}
+
+.history-info {
+  flex-grow: 1;
+
+  p {
+    margin: 0;
+    font-size: 12px;
+  }
+
+  .history-hash {
+    font-weight: bold;
+    color: #2c3e50;
+  }
+
+  .history-details {
+    color: #7f8c8d;
+    font-size: 11px;
+  }
+}

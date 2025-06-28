@@ -1,0 +1,142 @@
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="800" fill="#f8f9fa"/>
+  
+  <!-- Header -->
+  <rect x="0" y="0" width="1200" height="60" fill="#2c3e50" stroke="#34495e"/>
+  <text x="20" y="35" fill="white" font-size="18" font-weight="bold">Gemini Video Playground</text>
+  
+  <!-- Left Panel - History Timeline -->
+  <rect x="10" y="70" width="280" height="720" fill="white" stroke="#e1e8ed" stroke-width="2" rx="8"/>
+  <text x="25" y="95" font-size="16" font-weight="bold" fill="#2c3e50">History Timeline</text>
+  
+  <!-- Timeline Cards -->
+  <g id="timeline-cards">
+    <!-- Card 1 - Recent -->
+    <rect x="25" y="110" width="250" height="80" fill="#f8f9fa" stroke="#e1e8ed" rx="6"/>
+    <circle cx="45" cy="135" r="8" fill="#27ae60"/>
+    <text x="65" y="130" font-size="12" font-weight="bold" fill="#2c3e50">#a7f3c2 • 5m ago</text>
+    <text x="65" y="145" font-size="11" fill="#7f8c8d">2 videos • structured • gemini-1.5</text>
+    <g transform="translate(65, 155)">
+      <rect width="16" height="12" fill="none" stroke="#3498db" stroke-width="1.5" rx="2"/>
+      <circle cx="4" cy="4" r="1.5" fill="#3498db"/>
+      <rect x="25" width="12" height="8" fill="#e74c3c" rx="1"/>
+      <text x="45" y="6" font-size="9" fill="#7f8c8d">JSON</text>
+    </g>
+    
+    <!-- Card 2 -->
+    <rect x="25" y="200" width="250" height="80" fill="white" stroke="#e1e8ed" rx="6"/>
+    <circle cx="45" cy="225" r="8" fill="#3498db"/>
+    <text x="65" y="220" font-size="12" font-weight="bold" fill="#2c3e50">#b8e6ff • 1h ago</text>
+    <text x="65" y="235" font-size="11" fill="#7f8c8d">1 video • text • gemini-1.5-pro</text>
+    <g transform="translate(65, 245)">
+      <rect width="16" height="12" fill="none" stroke="#3498db" stroke-width="1.5" rx="2"/>
+      <circle cx="4" cy="4" r="1.5" fill="#3498db"/>
+      <rect x="25" width="12" height="8" fill="#95a5a6" rx="1"/>
+      <text x="45" y="6" font-size="9" fill="#7f8c8d">TXT</text>
+    </g>
+    
+    <!-- Card 3 -->
+    <rect x="25" y="290" width="250" height="80" fill="white" stroke="#e1e8ed" rx="6"/>
+    <circle cx="45" cy="315" r="8" fill="#f39c12"/>
+    <text x="65" y="310" font-size="12" font-weight="bold" fill="#2c3e50">#ffd700 • 3h ago</text>
+    <text x="65" y="325" font-size="11" fill="#7f8c8d">3 videos • text • gemini-1.5</text>
+    <g transform="translate(65, 335)">
+      <rect width="16" height="12" fill="none" stroke="#3498db" stroke-width="1.5" rx="2"/>
+      <circle cx="4" cy="4" r="1.5" fill="#3498db"/>
+      <rect x="20" width="16" height="12" fill="none" stroke="#3498db" stroke-width="1.5" rx="2"/>
+      <circle cx="24" cy="340" r="1.5" fill="#3498db"/>
+      <rect x="40" width="16" height="12" fill="none" stroke="#3498db" stroke-width="1.5" rx="2"/>
+      <circle cx="44" cy="340" r="1.5" fill="#3498db"/>
+      <rect x="60" width="12" height="8" fill="#95a5a6" rx="1"/>
+      <text x="80" y="6" font-size="9" fill="#7f8c8d">TXT</text>
+    </g>
+    
+    <!-- More cards placeholder -->
+    <text x="25" y="400" font-size="11" fill="#95a5a6">• • • (scroll for more)</text>
+  </g>
+  
+  <!-- Center Panel - Main Interface -->
+  <rect x="300" y="70" width="580" height="720" fill="white" stroke="#e1e8ed" stroke-width="2" rx="8"/>
+  
+  <!-- Model Selection & Output Type -->
+  <text x="320" y="95" font-size="16" font-weight="bold" fill="#2c3e50">Analysis Interface</text>
+  
+  <g id="controls">
+    <!-- Model Selection -->
+    <text x="320" y="125" font-size="12" fill="#2c3e50">Model:</text>
+    <rect x="370" y="112" width="150" height="28" fill="#f8f9fa" stroke="#e1e8ed" rx="4"/>
+    <text x="380" y="130" font-size="12" fill="#2c3e50">gemini-1.5-pro</text>
+    <polygon points="510,122 515,127 510,132" fill="#7f8c8d"/>
+    
+    <!-- Output Type -->
+    <text x="540" y="125" font-size="12" fill="#2c3e50">Output:</text>
+    <rect x="590" y="112" width="120" height="28" fill="#f8f9fa" stroke="#e1e8ed" rx="4"/>
+    <text x="600" y="130" font-size="12" fill="#2c3e50">Structured</text>
+    <polygon points="700,122 705,127 700,132" fill="#7f8c8d"/>
+  </g>
+  
+  <!-- Prompt Area -->
+  <text x="320" y="165" font-size="12" fill="#2c3e50">Prompt:</text>
+  <rect x="320" y="175" width="540" height="120" fill="#f8f9fa" stroke="#e1e8ed" stroke-width="2" rx="6"/>
+  <text x="330" y="195" font-size="11" fill="#95a5a6">Enter your prompt here...</text>
+  
+  <!-- Send Button -->
+  <rect x="760" y="305" width="100" height="35" fill="#27ae60" rx="6"/>
+  <text x="795" y="327" font-size="12" fill="white" text-anchor="middle">Send</text>
+  
+  <!-- Response Area -->
+  <text x="320" y="365" font-size="12" fill="#2c3e50">Response:</text>
+  <rect x="320" y="375" width="540" height="400" fill="#f8f9fa" stroke="#e1e8ed" stroke-width="2" rx="6"/>
+  <text x="330" y="395" font-size="11" fill="#95a5a6">AI response will appear here...</text>
+  
+  <!-- Right Panel - Video Management -->
+  <rect x="890" y="70" width="300" height="720" fill="white" stroke="#e1e8ed" stroke-width="2" rx="8"/>
+  <text x="910" y="95" font-size="16" font-weight="bold" fill="#2c3e50">Video Library</text>
+  
+  <!-- Upload Button -->
+  <rect x="910" y="105" width="260" height="40" fill="#3498db" stroke="#2980b9" rx="6"/>
+  <text x="1040" y="129" font-size="12" fill="white" text-anchor="middle">+ Upload Video</text>
+  
+  <!-- Video Items -->
+  <g id="video-items">
+    <!-- Video Item 1 - Selected -->
+    <rect x="910" y="160" width="260" height="90" fill="#e8f4fd" stroke="#3498db" stroke-width="2" rx="6"/>
+    <rect x="920" y="170" width="60" height="40" fill="#ecf0f1" stroke="#bdc3c7" rx="4"/>
+    <polygon points="945,185 955,190 945,195" fill="#7f8c8d"/>
+    <text x="990" y="180" font-size="11" font-weight="bold" fill="#2c3e50">presentation.mp4</text>
+    <text x="990" y="195" font-size="10" fill="#7f8c8d">2:34 • 12MB • video/mp4</text>
+    <text x="990" y="208" font-size="10" fill="#7f8c8d">Today, 14:32</text>
+    <circle cx="1150" cy="180" r="8" fill="#e74c3c"/>
+    <text x="1147" y="184" font-size="10" fill="white">×</text>
+    <circle cx="1150" cy="205" r="6" fill="#27ae60"/>
+    <text x="1148" y="208" font-size="8" fill="white">✓</text>
+    
+    <!-- Video Item 2 -->
+    <rect x="910" y="260" width="260" height="90" fill="white" stroke="#e1e8ed" rx="6"/>
+    <rect x="920" y="270" width="60" height="40" fill="#ecf0f1" stroke="#bdc3c7" rx="4"/>
+    <polygon points="945,285 955,290 945,295" fill="#7f8c8d"/>
+    <text x="990" y="280" font-size="11" font-weight="bold" fill="#2c3e50">tutorial.mp4</text>
+    <text x="990" y="295" font-size="10" fill="#7f8c8d">5:18 • 28MB • video/mp4</text>
+    <text x="990" y="308" font-size="10" fill="#7f8c8d">Yesterday, 09:15</text>
+    <circle cx="1150" cy="280" r="8" fill="#e74c3c"/>
+    <text x="1147" y="284" font-size="10" fill="white">×</text>
+    
+    <!-- Video Item 3 -->
+    <rect x="910" y="360" width="260" height="90" fill="white" stroke="#e1e8ed" rx="6"/>
+    <rect x="920" y="370" width="60" height="40" fill="#ecf0f1" stroke="#bdc3c7" rx="4"/>
+    <polygon points="945,385 955,390 945,395" fill="#7f8c8d"/>
+    <text x="990" y="380" font-size="11" font-weight="bold" fill="#2c3e50">demo.webm</text>
+    <text x="990" y="395" font-size="10" fill="#7f8c8d">1:47 • 8MB • video/webm</text>
+    <text x="990" y="408" font-size="10" fill="#7f8c8d">2 days ago</text>
+    <circle cx="1150" cy="380" r="8" fill="#e74c3c"/>
+    <text x="1147" y="384" font-size="10" fill="white">×</text>
+  </g>
+  
+  <!-- Selection Info -->
+  <rect x="910" y="470" width="260" height="40" fill="#f8f9fa" stroke="#e1e8ed" rx="6"/>
+  <text x="925" y="490" font-size="11" fill="#2c3e50">1 video selected for analysis</text>
+  
+  <!-- Scroll indicator -->
+  <text x="910" y="540" font-size="11" fill="#95a5a6">• • • (scroll for more)</text>
+</svg>

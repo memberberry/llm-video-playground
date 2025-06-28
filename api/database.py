@@ -145,10 +145,55 @@ def get_history() -> List[History]:
     finally:
         conn.close()
 
+def get_history_with_videos() -> List[Dict[str, Any]]:
+    conn = get_db_connection()
+    try:
+        cursor = conn.execute("""
+            SELECT
+                h.*,
+                v.id AS vid_id,
+                v.display_name,
+                v.video_uri,
+                v.thumbnail,
+                v.gemini_name,
+                v.mime_type,
+                v.size_bytes,
+                v.upload_status,
+                v.created_at AS vid_created_at,
+                v.is_deleted,
+                v.path
+            FROM
+                history h
+            LEFT JOIN
+                history_videos hv ON h.hash = hv.history_hash
+            LEFT JOIN
+                videos v ON hv.video_id = v.id
+            ORDER BY
+                h.created_at DESC
+        """)
+        rows = cursor.fetchall()
+
+        results = []
+        for row in rows:
+            row_dict = dict(row)
+            if row_dict['structured_output']:
+                row_dict['structured_output'] = json.loads(row_dict['structured_output'])
+            
+            # Encode thumbnail to base64 if it exists
+            if row_dict['thumbnail']:
+                import base64
+                row_dict['thumbnail'] = base64.b64encode(row_dict['thumbnail']).decode('utf-8')
+            
+            results.append(row_dict)
+        return results
+    finally:
+        conn.close()
+
+
 def get_videos() -> List[Dict[str, Any]]:
     conn = get_db_connection()
     try:
-        cursor = conn.execute("SELECT id, display_name, video_uri, thumbnail, gemini_name, mime_type, size_bytes, created_at, upload_status, path FROM videos WHERE is_deleted = FALSE ORDER BY created_at DESC")
+        cursor = conn.execute("SELECT * FROM videos WHERE is_deleted = FALSE ORDER BY created_at DESC")
         rows = cursor.fetchall()
         return [dict(row) for row in rows]
     finally:
@@ -160,6 +205,14 @@ def get_video(video_id: int) -> Dict[str, Any] | None:
         cursor = conn.execute("SELECT * FROM videos WHERE id = ?", (video_id,))
         row = cursor.fetchone()
         return dict(row) if row else None
+    finally:
+        conn.close()
+
+def delete_video(video_id: int):
+    conn = get_db_connection()
+    try:
+        conn.execute("DELETE FROM videos WHERE id = ?", (video_id,))
+        conn.commit()
     finally:
         conn.close()
 

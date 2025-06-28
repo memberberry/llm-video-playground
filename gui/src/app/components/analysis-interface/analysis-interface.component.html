@@ -1,0 +1,29 @@
+<h2>Analysis Interface</h2>
+
+<div class="controls">
+  <div class="control-group">
+    <label for="model">Model:</label>
+    <select id="model" [(ngModel)]="selectedModel">
+      <option *ngFor="let model of models" [value]="model">{{ model }}</option>
+    </select>
+  </div>
+  <div class="control-group">
+    <label for="output">Output:</label>
+    <select id="output" [(ngModel)]="outputType">
+      <option value="structured">Structured</option>
+      <option value="text">Text</option>
+    </select>
+  </div>
+</div>
+
+<div class="prompt-area">
+  <label for="prompt">Prompt:</label>
+  <textarea id="prompt" [(ngModel)]="prompt" placeholder="Enter your prompt here..."></textarea>
+</div>
+
+<button class="send-btn" (click)="sendRequest()">Send</button>
+
+<div class="response-area">
+  <label>Response:</label>
+  <pre>{{ response | json }}</pre>
+</div>

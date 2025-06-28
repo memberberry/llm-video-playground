@@ -1,0 +1,18 @@
+<h2>Video Library</h2>
+
+<input type="file" (change)="onFileSelected($event)" accept="video/*" #fileUpload hidden>
+<button class="upload-btn" (click)="fileUpload.click()">+ Upload Video</button>
+
+<div class="video-list">
+  <app-video-card
+    *ngFor="let video of videos"
+    [video]="video"
+    [class.selected]="isSelected(video)"
+    (click)="toggleVideoSelection(video)"
+    (delete)="deleteVideo(video)">
+  </app-video-card>
+</div>
+
+<div class="selection-info">
+  <p>{{ selectedVideos.length }} video(s) selected for analysis</p>
+</div>

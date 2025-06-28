@@ -1,0 +1,7 @@
+<div class="history-card-container">
+  <div class="status-dot"></div>
+  <div class="history-info">
+    <p class="history-hash">#{{ historyItem.hash.slice(0, 6) }} • {{ historyItem.created_at | date:'shortTime' }}</p>
+    <p class="history-details">{{ historyItem.videos.length }} video(s) • {{ historyItem.structured_output ? 'structured' : 'text' }} • {{ historyItem.model }}</p>
+  </div>
+</div>

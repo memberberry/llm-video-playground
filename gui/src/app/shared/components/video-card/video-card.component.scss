@@ -1,0 +1,83 @@
+.video-card-container {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #e1e8ed;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &.selected {
+    background-color: #e8f4fd;
+    border-color: #3498db;
+  }
+
+  &:hover {
+    background-color: #f8f9fa;
+  }
+}
+
+.thumbnail {
+  width: 60px;
+  height: 40px;
+  background-color: #ecf0f1;
+  border: 1px solid #bdc3c7;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .no-thumbnail svg {
+    color: #7f8c8d;
+  }
+}
+
+.video-info {
+  flex-grow: 1;
+
+  p {
+    margin: 0;
+    font-size: 12px;
+  }
+
+  .video-name {
+    font-weight: bold;
+    color: #2c3e50;
+  }
+
+  .video-details,
+  .video-date {
+    color: #7f8c8d;
+    font-size: 10px;
+  }
+}
+
+.delete-btn {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.2s;
+
+  .video-card-container:hover & {
+    opacity: 1;
+  }
+}

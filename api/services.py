@@ -43,7 +43,12 @@ def generate_thumbnail(video_path: str) -> bytes:
     if not ret:
         raise ValueError("Could not read frame from video")
 
-    is_success, buffer = cv2.imencode(".jpg", frame)
+    # Resize the frame to a common thumbnail aspect ratio (e.g., 160x90 for 16:9)
+    thumbnail_width = 160
+    thumbnail_height = 90
+    resized_frame = cv2.resize(frame, (thumbnail_width, thumbnail_height), interpolation=cv2.INTER_AREA)
+
+    is_success, buffer = cv2.imencode(".jpg", resized_frame)
     if not is_success:
         raise ValueError("Could not encode frame to JPEG")
 
@@ -61,8 +66,11 @@ def upload_video_to_gemini_and_update_db(
         # Upload the file to Gemini
         print(f"Uploading file: {display_name}")
         upload = client.files.upload(
-            file=display_name,
-            mime_type=mime_type
+            file=file_path,
+            config=UploadFileConfig(
+                name=display_name,
+                mime_type=mime_type or "video/mp4",  # Default to mp4 if mime type is not provided
+            )
         )
 
         while upload.state.name == "PROCESSING":
@@ -83,6 +91,7 @@ def upload_video_to_gemini_and_update_db(
             thumbnail=thumbnail_bytes,
             gemini_name=upload.name,
         )
+        
         print(f"File {display_name} processed and database updated.")
 
     except Exception as e:

@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from .routers import videos, gemini, db
+from fastapi.middleware.cors import CORSMiddleware
 import logging
 import colorlog
 import sys
@@ -29,6 +30,18 @@ if not log.handlers: # Prevent adding multiple handlers if module is reloaded
 
 app = FastAPI(version=settings.VERSION, title="Gemini Playground Service", description="A service to interact with Gemini API and manage video uploads.", docs_url="/docs", redoc_url="/redoc")
 
+origins = [
+    "http://localhost:4200",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 app.include_router(videos.router, prefix="/api")
 app.include_router(gemini.router, prefix="/api")
 app.include_router(db.router, prefix="/api")
@@ -51,4 +64,4 @@ def get_version():
         "installed_packages": installed_packages
         }
 
-#app.mount("/playground", StaticFiles(directory="frontend/build", html=True), name="static")
+app.mount("/playground", StaticFiles(directory="public", html=True), name="static")

@@ -19,7 +19,7 @@ router = APIRouter(
 
 @router.post("/with_videos")
 def request_gemini_files(request: GeminiFileRequest) -> Dict[str, Any]:
-    uploads = [get_uploaded_file(name) for name in request.files]
+    uploads = [get_uploaded_file(id) for id in request.video_ids]
     try:
         response = client.models.generate_content(
             model=request.model,
@@ -38,7 +38,7 @@ def request_gemini_files(request: GeminiFileRequest) -> Dict[str, Any]:
         model=request.model,
         output=response.text,
         structured_output=None,
-        videos=request.files
+        video_ids=request.video_ids
     )
 
     return {"text": response.text}
@@ -55,7 +55,7 @@ def list_gemini_models():
 
 @router.post("/with_videos_struct")
 def request_gemini_files_struct(request: GeminiStructRequest) -> Dict[str, Any]:
-    uploads = [get_uploaded_file(name) for name in request.files]
+    uploads = [get_uploaded_file(id) for id in request.video_ids]
     
     try:
         response = client.models.generate_content(
@@ -81,7 +81,7 @@ def request_gemini_files_struct(request: GeminiStructRequest) -> Dict[str, Any]:
         model=request.model,
         output=None,
         structured_output=output_for_db,
-        videos=request.files
+        video_ids=request.video_ids
     )
 
     return {"parsed": response.parsed}

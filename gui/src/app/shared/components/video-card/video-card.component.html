@@ -1,0 +1,14 @@
+<div class="video-card-container">
+  <div class="thumbnail">
+    <img *ngIf="video.thumbnail" [src]="'data:image/png;base64,' + video.thumbnail" alt="Video Thumbnail">
+    <div *ngIf="!video.thumbnail" class="no-thumbnail">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+    </div>
+  </div>
+  <div class="video-info">
+    <p class="video-name">{{ video.display_name }}</p>
+    <p class="video-details">{{ video.size_bytes / (1024*1024) | number:'1.2-2' }}MB • {{ video.mime_type }}</p>
+    <p class="video-date">{{ video.created_at | date:'short' }}</p>
+  </div>
+  <button class="delete-btn" (click)="onDelete($event)">×</button>
+</div>

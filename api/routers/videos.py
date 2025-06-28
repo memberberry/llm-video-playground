@@ -30,9 +30,17 @@ async def upload_video(background_tasks: BackgroundTasks, file: UploadFile = Fil
     Uploads a video file, generates a thumbnail, and stores metadata in the database.
     The actual upload and processing happens in the background.
     """
+
     video_dir = settings.VIDEO_STORAGE_DIR
     display_name = get_file_name(file.filename)
 
+    file_path = os.path.join(video_dir, file.filename)
+
+    async with aiofiles.open(file_path, 'wb') as out_file:
+        contents = await file.read()
+        await out_file.write(contents)
+
+    
     video_id = add_video_entry(
         display_name=display_name,
         mime_type=file.content_type,
@@ -40,30 +48,17 @@ async def upload_video(background_tasks: BackgroundTasks, file: UploadFile = Fil
         path=file_path
     )
 
-    try:
-        upload_video_to_gemini_and_update_db(
-            video_id,
-            file_path,
-            display_name,
-            file.content_type,
-        )
 
-    except Exception as e:
-        log.error(f"Error uploading video to Gemini: {e}")
-        raise HTTPException(status_code=500, detail="Failed to upload video to Gemini")
+    upload_video_to_gemini_and_update_db(
+        video_id,
+        file_path,
+        display_name,
+        file.content_type,
+    )
 
-    if not os.path.exists(video_dir):
-        log.error(f"Video directory {video_dir} does not exist. Cannot save video.")
-        raise HTTPException(status_code=500, detail="Video storage directory does not exist")
 
-    file_path = os.path.join(video_dir, file.filename)
-    async with aiofiles.open(file_path, 'wb') as out_file:
-        contents = await file.read()
-        await out_file.write(contents)
+    return {"message": "successfully uploaded and saved video", "video_id": video_id, "display_name": display_name, "path": file_path}
 
-    
-
-    return {"message": "Video upload started in the background.", "video_id": video_id}
 
 
 @router.get("/", response_model=List[Video])
@@ -73,21 +68,28 @@ async def list_videos():
     """
     try:
         videos_from_db = get_videos()
+        print(f"Retrieved {len(videos_from_db)} videos from the database.")
         response_videos = []
         for video_data in videos_from_db:
             video_dict = dict(video_data)
-            if video_dict.get("thumbnail"):
+            print("video_dict:", video_dict)
+            if video_dict.get("thumbnail") != None:
                 video_dict["thumbnail"] = base64.b64encode(video_dict["thumbnail"]).decode("utf-8")
+            else:
+                raise ValueError("Thumbnail is None, cannot encode to base64")
             response_videos.append(Video(**video_dict))
         return response_videos
+        
     except Exception as e:
+        log.error(f"Error retrieving videos: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.delete("/{video_id}")
-async def delete_video_from_db(video_id: int):
+async def delete_video(video_id: int):
     """
-    Deletes a video from Google Gemini and marks it as deleted in the local database.
+    This endpoint deletes a video from the local storage and Gemini.
+    It marks the video as deleted in our database.
     """
     try:
         video_data = get_video(video_id)
@@ -102,6 +104,7 @@ async def delete_video_from_db(video_id: int):
             try:
                 client.files.delete(name=video_data["gemini_name"])
                 log.info(f"Deleted file {video_data['gemini_name']} from Gemini.")
+                
             except Exception as e:
                 # Log the error but proceed to mark as deleted in our DB
                 log.error(f"Could not delete file {video_data['gemini_name']} from Gemini: {e}")
