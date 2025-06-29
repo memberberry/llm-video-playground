@@ -8,6 +8,7 @@ import { Video } from '../../../core/models/video.model';
 })
 export class VideoCardComponent {
   @Input() video!: Video;
+  @Input() isSelected: boolean = false;
   @Output() delete = new EventEmitter<void>();
 
   onDelete(event: MouseEvent): void {

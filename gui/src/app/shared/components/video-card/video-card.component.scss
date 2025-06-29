@@ -9,8 +9,8 @@
   transition: background-color 0.2s;
 
   &.selected {
-    background-color: #e8f4fd;
-    border-color: #3498db;
+    background-color: #cce5ff; /* A light blue */
+    border: 2px solid #007bff; /* A darker blue for the border */
   }
 
   &:hover {

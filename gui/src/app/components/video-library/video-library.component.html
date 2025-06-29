@@ -7,7 +7,7 @@
   <app-video-card
     *ngFor="let video of videos"
     [video]="video"
-    [class.selected]="isSelected(video)"
+    [isSelected]="isSelected(video)"
     (click)="toggleVideoSelection(video)"
     (delete)="deleteVideo(video)">
   </app-video-card>

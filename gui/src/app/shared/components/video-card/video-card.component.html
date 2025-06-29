@@ -1,4 +1,4 @@
-<div class="video-card-container">
+<div class="video-card-container" [class.selected]="isSelected">
   <div class="thumbnail">
     <img *ngIf="video.thumbnail" [src]="'data:image/png;base64,' + video.thumbnail" alt="Video Thumbnail">
     <div *ngIf="!video.thumbnail" class="no-thumbnail">
