@@ -2,7 +2,7 @@ import sqlite3
 import logging
 from typing import List, Union, Dict, Any
 from api.models import History
-import json
+import json, base64
 
 log = logging.getLogger(__name__)
 
@@ -189,6 +189,77 @@ def get_history_with_videos() -> List[Dict[str, Any]]:
     finally:
         conn.close()
 
+def get_event_from_history_with_videos_by_hash(hash: str) -> Dict[str, Any] | None:
+    conn = get_db_connection()
+    try:
+        cursor = conn.execute("""
+            SELECT
+                h.hash,
+                h.prompt,
+                h.model,
+                h.output,
+                h.structured_output,
+                h.created_at,
+                v.id AS video_id,
+                v.display_name,
+                v.video_uri,
+                v.thumbnail,
+                v.gemini_name,
+                v.mime_type,
+                v.size_bytes,
+                v.upload_status,
+                v.created_at AS video_created_at,
+                v.is_deleted,
+                v.path
+            FROM
+                history h
+            LEFT JOIN
+                history_videos hv ON h.hash = hv.history_hash
+            LEFT JOIN
+                videos v ON hv.video_id = v.id
+            WHERE
+                h.hash = ?
+        """, (hash,))
+        rows = cursor.fetchall()
+
+        if not rows:
+            return None
+
+        history_data = {}
+        videos_list = []
+
+        for row in rows:
+            if not history_data: # Populate history data from the first row
+                history_data = {
+                    "hash": row['hash'],
+                    "prompt": row['prompt'],
+                    "model": row['model'],
+                    "output": row['output'],
+                    "structured_output": json.loads(row['structured_output']) if row['structured_output'] else None,
+                    "created_at": row['created_at'],
+                    "videos": [] # Initialize videos list
+                }
+            
+            if row['video_id']: # If there's video data for this row
+                video_dict = {
+                    "id": row['video_id'],
+                    "display_name": row['display_name'],
+                    "video_uri": row['video_uri'],
+                    "thumbnail": base64.b64encode(row['thumbnail']).decode('utf-8') if row['thumbnail'] else None,
+                    "gemini_name": row['gemini_name'],
+                    "mime_type": row['mime_type'],
+                    "size_bytes": row['size_bytes'],
+                    "upload_status": row['upload_status'],
+                    "created_at": row['video_created_at'],
+                    "is_deleted": bool(row['is_deleted']),
+                    "path": row['path']
+                }
+                videos_list.append(video_dict)
+        
+        history_data['videos'] = videos_list
+        return history_data
+    finally:
+        conn.close()
 
 def get_videos() -> List[Dict[str, Any]]:
     conn = get_db_connection()

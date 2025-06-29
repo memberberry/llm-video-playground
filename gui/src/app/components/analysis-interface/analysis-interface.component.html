@@ -21,6 +21,13 @@
   <textarea id="prompt" [(ngModel)]="prompt" placeholder="Enter your prompt here..."></textarea>
 </div>
 
+<div class="prompt-area" *ngIf="outputType === 'structured'">
+  <label for="jsonSchema">JSON Schema:</label>
+  <textarea id="jsonSchema" [(ngModel)]="jsonSchemaInput" placeholder="Enter your JSON schema here..." rows="10"></textarea>
+  <button class="format-json-btn" (click)="formatJsonInput()">Format JSON</button>
+  <div *ngIf="jsonSchemaError" class="error-message">{{ jsonSchemaError }}</div>
+</div>
+
 <button class="send-btn" (click)="sendRequest()">Send</button>
 
 <div class="response-area">

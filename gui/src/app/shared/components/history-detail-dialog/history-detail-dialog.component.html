@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>History Event Details</h2>
+
+<mat-dialog-content>
+  <div *ngIf="historyDetail">
+    <h3>Prompt:</h3>
+    <p>{{ historyDetail.prompt }}</p>
+
+    <h3>Result:</h3>
+    <p>{{ historyDetail.output }}</p>
+
+    <div *ngIf="historyDetail.structured_output">
+      <h3>Structured Output:</h3>
+      <pre>{{ jsonOutput }}</pre>
+    </div>
+
+    <h3>Model:</h3>
+    <p>{{ historyDetail.model }}</p>
+
+    <div *ngIf="historyDetail.videos && historyDetail.videos.length > 0">
+      <h3>Videos:</h3>
+      <div class="video-list">
+        <app-video-card *ngFor="let video of historyDetail.videos" [video]="video"></app-video-card>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

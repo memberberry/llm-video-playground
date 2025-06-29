@@ -15,3 +15,7 @@ def get_history():
 @router.get("/history_with_videos", response_model=List[Dict[str, Any]])
 def get_history_with_videos():
     return database.get_history_with_videos()
+
+@router.get("/history/{hash}", response_model=models.HistoryWithVideos)
+def get_event_from_history_with_videos_by_hash(hash: str):
+    return database.get_event_from_history_with_videos_by_hash(hash)

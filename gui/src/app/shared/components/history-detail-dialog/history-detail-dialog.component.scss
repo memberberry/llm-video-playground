@@ -1,0 +1,18 @@
+.video-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+app-video-card {
+  flex: 1 1 calc(33% - 16px); /* Adjust as needed for desired card size */
+  max-width: calc(33% - 16px);
+}
+
+pre {
+  background-color: #f5f5f5;
+  padding: 10px;
+  border-radius: 4px;
+  overflow-x: auto;
+}

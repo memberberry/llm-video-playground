@@ -27,4 +27,8 @@ export class ApiService {
   delete<T>(path: string): Observable<T> {
     return this.http.delete<T>(`${this.baseUrl}/${path}`, { headers: this.getHeaders() });
   }
+
+  getHistoryByHash(hash: string): Observable<any> {
+    return this.get(`database/history/${hash}`);
+  }
 }

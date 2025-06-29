@@ -19,7 +19,7 @@ export class GeminiService {
   }
 
   requestGeminiFilesStruct(model: string, prompt: string, video_ids: number[], response_schema: any): Observable<any> {
-    const body = { model, prompt, files: video_ids, response_schema };
+    const body = { model, prompt, video_ids, response_schema };
     return this.apiService.post('gemini/with_videos_struct', body);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { History } from '../../../core/models/history.model';
 
 @Component({
@@ -8,4 +8,9 @@ import { History } from '../../../core/models/history.model';
 })
 export class HistoryCardComponent {
   @Input() historyItem!: History;
+  @Output() cardClicked = new EventEmitter<string>();
+
+  onClick(): void {
+    this.cardClicked.emit(this.historyItem.hash);
+  }
 }

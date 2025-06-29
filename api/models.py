@@ -9,17 +9,21 @@ class GeminiFileRequest(BaseModel):
     prompt: str
     video_ids: List[int]
 
-class PropertyDefinition(TypedDict):
+class PropertyDefinition(TypedDict, total=False):
     # 'STRING', 'INTEGER', 'NUMBER', 'BOOLEAN', 'ARRAY', 'OBJECT'
     type: Literal[Type.STRING, Type.INTEGER, Type.NUMBER, Type.BOOLEAN, Type.ARRAY, Type.OBJECT]
     description: str
+    items: 'ResponseSchemaDict'
+    properties: 'PropertiesDict'
+    required: List[str]
 
 PropertiesDict = Dict[str, PropertyDefinition]
 
-class ResponseSchemaDict(TypedDict):
+class ResponseSchemaDict(TypedDict, total=False):
     required: List[str]
     properties: PropertiesDict
-    type: Literal["OBJECT"]
+    type: Literal[Type.OBJECT]
+    items: 'ResponseSchemaDict'
 
 
 class GeminiStructRequest(BaseModel):
@@ -46,7 +50,7 @@ class GeminiStructRequest(BaseModel):
     #     },
     model: str
     prompt: str
-    files: List[int]
+    video_ids: List[int]
     response_schema: ResponseSchemaDict
 
 class Video(BaseModel):
@@ -70,3 +74,6 @@ class History(BaseModel):
     structured_output: Optional[Dict[str, Any]] = None
     created_at: str
     videos: List[int] = []
+
+class HistoryWithVideos(History):
+    videos: List[Video] = []

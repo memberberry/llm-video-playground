@@ -68,6 +68,28 @@
   }
 }
 
+.format-json-btn {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 11px;
+  margin-top: 10px;
+  align-self: flex-start;
+
+  &:hover {
+    background-color: #2186c4;
+  }
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 11px;
+  margin-top: 5px;
+}
+
 .response-area {
   flex-grow: 1;
   display: flex;
