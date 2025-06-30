@@ -43,3 +43,11 @@ Once the FastAPI backend is running (using `uvicorn api.main:app --reload`), the
 ```
 http://localhost:8000/playground/
 ```
+
+
+## Useful
+
+Here is a command line script for pasting a thumbnail into a file so that you can see how it renders.
+```
+sqlite3 history.db "SELECT writefile('thumbnail.png', thumbnail) FROM videos WHERE id = 1"
+```
