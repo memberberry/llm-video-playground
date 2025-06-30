@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Video } from '../../core/models/video.model';
 import { VideoService } from '../../core/services/video.service';
 import { StateService } from '../../shared/services/state.service';
+import { finalize, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-video-library',
@@ -11,6 +13,8 @@ import { StateService } from '../../shared/services/state.service';
 export class VideoLibraryComponent implements OnInit {
   videos: Video[] = [];
   selectedVideos: Video[] = [];
+  loadingUpload: boolean = false;
+  uploadError: string | null = null;
 
   constructor(
     private videoService: VideoService,
@@ -34,7 +38,16 @@ export class VideoLibraryComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
-      this.videoService.uploadVideo(file).subscribe(() => {
+      this.loadingUpload = true;
+      this.uploadError = null;
+      this.videoService.uploadVideo(file).pipe(
+        finalize(() => this.loadingUpload = false),
+        catchError(error => {
+          this.uploadError = 'Failed to upload video.';
+          console.error('Upload error:', error);
+          return of(null);
+        })
+      ).subscribe(() => {
         this.loadVideos();
       });
     }

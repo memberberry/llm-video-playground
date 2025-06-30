@@ -4,6 +4,13 @@
 <button class="upload-btn" (click)="fileUpload.click()">+ Upload Video</button>
 
 <div class="video-list">
+  <div *ngIf="loadingUpload" class="loading-card">
+    <mat-spinner diameter="24"></mat-spinner>
+    <p>Uploading video...</p>
+  </div>
+  <div *ngIf="uploadError" class="error-message">
+    <p>{{ uploadError }}</p>
+  </div>
   <app-video-card
     *ngFor="let video of videos"
     [video]="video"

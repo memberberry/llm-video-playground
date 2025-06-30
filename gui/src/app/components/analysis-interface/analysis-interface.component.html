@@ -28,7 +28,14 @@
   <div *ngIf="jsonSchemaError" class="error-message">{{ jsonSchemaError }}</div>
 </div>
 
-<button class="send-btn" (click)="sendRequest()">Send</button>
+<button class="send-btn" (click)="sendRequest()" [disabled]="loadingGemini">
+  <span *ngIf="!loadingGemini">Send</span>
+  <mat-spinner *ngIf="loadingGemini" diameter="20"></mat-spinner>
+</button>
+
+<div *ngIf="geminiError" class="error-message gemini-error">
+  <p>{{ geminiError }}</p>
+</div>
 
 <div class="response-area">
   <label>Response:</label>
